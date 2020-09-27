@@ -30,10 +30,10 @@ class UDPClientProtocol(asyncio.DatagramProtocol, ProtoBase):
         self.transport.close()
 
     @classmethod
-    async def send_new_message(cls, loop, host: str, data: bytes, port: int = 53):
+    async def send_new_message(cls, loop, host: str, data: bytes, port: int = 53, timeout=1):
 
         transport, protocol = await loop.create_datagram_endpoint(
-            lambda: cls(loop, data),
+            lambda: cls(loop, data, timeout=timeout),
             remote_addr=(host, port)
         )
 

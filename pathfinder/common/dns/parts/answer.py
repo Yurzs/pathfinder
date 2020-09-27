@@ -1,4 +1,5 @@
 import struct
+import time
 import typing
 
 from pathfinder.common.dns.parts import DnsMessagePart, rdata
@@ -15,6 +16,15 @@ class DnsMessageAnswer(DnsMessagePart):
         self.klass = klass
         self.ttl = ttl
         self.rdata = rdata
+        self.__timestamp__ = time.time()
+
+    @property
+    def expired(self):
+        return True if (self.__timestamp__ + self.ttl) < time.time() else False
+
+    @property
+    def ttl_left(self):
+        return int((self.__timestamp__ + self.ttl) - time.time())
 
     @property
     def rdlength(self) -> int:

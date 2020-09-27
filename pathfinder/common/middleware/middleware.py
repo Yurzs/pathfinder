@@ -3,6 +3,11 @@ import typing
 from abc import ABCMeta, abstractmethod
 
 
+class StopMiddlewareIteration(BaseException):
+    def __init__(self, result):
+        self.result = result
+
+
 class Middleware(metaclass=ABCMeta):
     outer_container: "MiddlewareList"
 
@@ -11,7 +16,7 @@ class Middleware(metaclass=ABCMeta):
         """Helps to decode message. Called before message decoding."""
 
         @functools.wraps(func)
-        async def wrap(*args, **kwargs):
+        def wrap(*args, **kwargs):
             return func(*args, **kwargs)
         return wrap
 
@@ -26,7 +31,7 @@ class Middleware(metaclass=ABCMeta):
         """Help to encode message. Called before message encoding."""
 
         @functools.wraps(func)
-        async def wrap(*args, **kwargs):
+        def wrap(*args, **kwargs):
             return func(*args, **kwargs)
         return wrap
 
@@ -42,6 +47,14 @@ class Middleware(metaclass=ABCMeta):
             return await obj
         else:
             return obj
+
+    @classmethod
+    def on_query(cls, func):
+        @functools.wraps(func)
+        def wrap(manager, host, resource_name, resource_type, resource_class, *args, **kwargs):
+            return func(
+                manager, host, resource_name, resource_type, resource_class, *args, **kwargs)
+        return wrap
 
 
 class MiddlewareList:
@@ -76,4 +89,18 @@ class MiddlewareList:
             for mware in self.middlewares:
                 await mware.after_decode(result)
             return result
+        return wrap
+
+    def on_query(self, func):
+        nested = func
+        for middleware in self.middlewares:
+            nested = middleware.on_query(nested)
+
+        @functools.wraps(func)
+        def wrap(manager, host, resource_name, resource_type, resource_class=1, **kwargs):
+            try:
+                return nested(manager, host, resource_name, resource_type, resource_class,
+                              **kwargs)
+            except StopMiddlewareIteration as stop:
+                return stop.result
         return wrap

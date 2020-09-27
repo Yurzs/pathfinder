@@ -3,11 +3,10 @@ import random
 from collections import OrderedDict
 
 import pathfinder.common.dns.parts as message_parts
-
-from pathfinder.common.dns.exceptions import MalformedPacket
-from pathfinder.common.dns.domains import DomainStorage
 from pathfinder.common.dns.bytestream import ByteStream
-from pathfinder.common.dns.parts import DnsMessageQuestion, DnsMessageHeader
+from pathfinder.common.dns.domains import DomainStorage, DnsDomain
+from pathfinder.common.dns.exceptions import MalformedPacket
+from pathfinder.common.dns.parts import DnsMessageHeader, DnsMessageQuestion, rdata
 
 
 class DnsMessage:
@@ -20,6 +19,26 @@ class DnsMessage:
         self.additional = message_parts.DnsPartStorage()
         self.domains = DomainStorage()
         self.bytestream = ByteStream()
+
+    @property
+    def unique_domains(self):
+        return set([domain.label for domain in self.domains])
+
+    @property
+    def used_domains(self):
+        domains = set()
+        parts = ("answer", "authority", "additional")
+        for part_name in parts:
+            part = getattr(self, part_name)
+            for resource in part:
+                for value in resource.__dict__.values():
+                    if isinstance(value, DnsDomain):
+                        domains.add(value.label)
+                    elif isinstance(value, rdata.Rdata):
+                        for rdata_value in value.__dict__.values():
+                            if isinstance(rdata_value, DnsDomain):
+                                domains.add(rdata_value.label)
+        return domains
 
     @classmethod
     def unpack(cls, data: bytes):

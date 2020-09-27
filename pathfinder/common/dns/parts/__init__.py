@@ -1,4 +1,6 @@
-from .part import DnsMessagePart
+from .part import DnsMessagePart  # noqa
+from . import rdata
+from .answer import DnsMessageAnswer
 from .header import DnsMessageHeader
 from .question import DnsMessageQuestion
 from .answer import DnsMessageAnswer

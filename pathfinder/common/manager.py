@@ -1,5 +1,6 @@
 import asyncio
 import functools
+from abc import abstractmethod
 from ipaddress import IPv6Address, IPv4Address
 
 from pathfinder.common.dns.message import DnsMessage
@@ -54,3 +55,7 @@ class Manager:
     @middlewares.on_encode
     async def encode_message(self, message: DnsMessage):
         return message.pack()
+
+    @abstractmethod
+    async def resolve(self, resource_name, resource_type, resource_class, ip_filter):
+        """Finds"""

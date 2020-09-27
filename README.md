@@ -3,7 +3,7 @@
 DNS client and server
 
 ## TODO
-- [ ] Client request Cache
+- [x] Client request Cache
 - [ ] Server part
 - [ ] Middlewares for EDNS, DNSSEC
 - [ ] Tests
