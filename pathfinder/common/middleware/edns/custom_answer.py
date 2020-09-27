@@ -1,8 +1,9 @@
 #  Copyright (c) Yurzs 2019.
 
 import struct
-from pathfinder.common.dns.parts import DnsMessageAnswer, rdata
+
 from pathfinder.common.dns.domains import DnsDomain
+from pathfinder.common.dns.parts import DnsMessageAnswer, rdata
 from pathfinder.common.middleware.edns.opt import Opt
 
 
@@ -42,20 +43,18 @@ class EdnsAnswer(DnsMessageAnswer):
 
     @classmethod
     def unpack(cls, message, data):
-
         answer = cls(message)
         answer.name = DnsDomain.unpack(message, data)
-        answer.type, answer.udp_payload_size, answer.extended_rcode, answer.version, ttl_octet2,\
-            answer._rdlength = struct.unpack(
-                "!2H2B2H", data.read(10)
-            )
+        answer.type, answer.udp_payload_size, answer.extended_rcode, answer.version, ttl_octet2, \
+        answer._rdlength = struct.unpack(
+            "!2H2B2H", data.read(10)
+        )
         answer.do = True if ttl_octet2 >= 32768 else False
         answer.z = ttl_octet2 - 32768 if answer.do else ttl_octet2
         answer.rdata = rdata.Rdata.by_type(answer.type).unpack(answer, data)
         return answer
 
     def pack(self):
-
         name = self.name.pack()
         fields = struct.pack("!HHLH", self.type, self.udp_payload_size, self.ttl, self.rdlength)
         rdata_ = self.rdata.pack()

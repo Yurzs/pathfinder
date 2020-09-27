@@ -8,11 +8,9 @@ class Ptr(Rdata):
 
     @classmethod
     def unpack(cls, answer, data):
-
         ptr = cls()
         ptr.ptrdname = DnsDomain.unpack(answer._message, data)
         return ptr
 
     def pack(self):
-
         return self.ptrdname.pack()

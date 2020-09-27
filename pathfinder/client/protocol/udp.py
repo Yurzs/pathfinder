@@ -1,7 +1,5 @@
 import asyncio
 
-from pathfinder.common.manager import Manager
-
 from pathfinder.common.protocol import ProtoBase, Timeout
 
 
@@ -19,7 +17,6 @@ class UDPClientProtocol(asyncio.DatagramProtocol, ProtoBase):
             self.response_message.set_exception(Timeout())
 
     def connection_made(self, transport: asyncio.transports.BaseTransport) -> None:
-
         self.transport = transport
         self.transport.sendto(self.message)
 
@@ -31,7 +28,6 @@ class UDPClientProtocol(asyncio.DatagramProtocol, ProtoBase):
 
     @classmethod
     async def send_new_message(cls, loop, host: str, data: bytes, port: int = 53, timeout=1):
-
         transport, protocol = await loop.create_datagram_endpoint(
             lambda: cls(loop, data, timeout=timeout),
             remote_addr=(host, port)

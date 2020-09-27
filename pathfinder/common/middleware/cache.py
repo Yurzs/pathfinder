@@ -1,6 +1,5 @@
 import functools
 
-from pathfinder.common.middleware.middleware import Middleware
 from pathfinder.common.dns.message import DnsMessage
 from pathfinder.common.dns.parts.rdata.rdata import Rdata
 
@@ -110,4 +109,5 @@ class CacheMiddleware(Middleware):
                     **kwargs
                 )
             return cached_message
+
         return wrap

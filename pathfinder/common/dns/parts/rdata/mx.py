@@ -13,14 +13,12 @@ class Mx(Rdata):
 
     @classmethod
     def unpack(cls, answer, data):
-
         mx = cls()
         mx.preference = struct.unpack("!H", data.read(2))[0]
         mx.exchange = DnsDomain.unpack(answer._message, data)
         return mx
 
     def pack(self):
-
         packed = struct.pack("!H", self.preference)
         packed += self.exchange.pack()
         return packed

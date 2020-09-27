@@ -1,4 +1,4 @@
-from ipaddress import IPv6Address, IPv4Address
+from ipaddress import IPv4Address, IPv6Address
 
 IPv4 = {
     "a.root-servers.net": IPv4Address("198.41.0.4"),

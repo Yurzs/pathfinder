@@ -5,7 +5,6 @@ from pathfinder.common.dns.parts.rdata import Rdata
 
 
 class Caa(Rdata):
-
     type = 257
 
     critical: bool

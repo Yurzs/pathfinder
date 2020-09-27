@@ -1,7 +1,7 @@
 import struct
 
-from pathfinder.common.dns.parts import DnsMessagePart
 from pathfinder.common.dns.domains import DnsDomain
+from pathfinder.common.dns.parts import DnsMessagePart
 
 
 class DnsMessageQuestion(DnsMessagePart):

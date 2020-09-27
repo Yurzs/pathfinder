@@ -1,11 +1,9 @@
-import asyncio
 import functools
 from abc import abstractmethod
-from ipaddress import IPv6Address, IPv4Address
+from ipaddress import IPv4Address, IPv6Address
 
-from pathfinder.common.dns.message import DnsMessage
-from pathfinder.common.dns.parts.rdata.rdata import Rdata
 from pathfinder.common.config import middlewares
+from pathfinder.common.dns.message import DnsMessage
 
 
 class FoundNameservers(BaseException):
@@ -46,6 +44,7 @@ class Manager:
                     raise Exception(f"Unknown IP version {ip_versions}")
                 return func(cls, *args, ip_filter=ip_filter, **kwargs)
             return func(cls, *args, **kwargs)
+
         return wrap
 
     @middlewares.on_decode

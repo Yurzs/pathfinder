@@ -1,5 +1,6 @@
 #  Copyright (c) Yurzs 2019.
 import struct
+
 from pathfinder.common.dns.parts.rdata import Rdata
 
 

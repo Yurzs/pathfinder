@@ -1,12 +1,12 @@
 import typing
 from ipaddress import IPv4Address, IPv6Address
 
-from pathfinder.common.manager import Manager, FoundNameservers
+from pathfinder.common.config import middlewares
 from pathfinder.common.dns.message import DnsMessage
 from pathfinder.common.dns.parts.rdata.rdata import Rdata
 from pathfinder.common.dns.root_servers import ROOT_SERVERS
+from pathfinder.common.manager import FoundNameservers, Manager
 from pathfinder.common.protocol import Timeout
-from pathfinder.common.config import middlewares
 
 
 class ClientManager(Manager):
@@ -103,7 +103,7 @@ class ClientManager(Manager):
         nameservers = []
         for nameserver_address_list in ROOT_SERVERS.values():
             nameservers.extend(filter(ip_filter, nameserver_address_list))
-        while filtered_nameservers:=list(filter(ip_filter, nameservers)):
+        while filtered_nameservers := list(filter(ip_filter, nameservers)):
             for server in filtered_nameservers:
                 try:
                     nameservers = await self._nameserver_request(server, resource_name,

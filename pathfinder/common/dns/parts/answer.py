@@ -2,8 +2,8 @@ import struct
 import time
 import typing
 
-from pathfinder.common.dns.parts import DnsMessagePart, rdata
 from pathfinder.common.dns.domains import DnsDomain
+from pathfinder.common.dns.parts import DnsMessagePart, rdata
 
 
 class DnsMessageAnswer(DnsMessagePart):

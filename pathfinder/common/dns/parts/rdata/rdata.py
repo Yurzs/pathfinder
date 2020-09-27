@@ -83,7 +83,7 @@ class Rdata:
                 chunks.append(f"{k.upper()}: {v}" + " " * (28 - len(f"{k.upper()}: {v}")))
             else:
                 chunks.append(f"{k.upper()}: {v}")
-        chunks.append("*"*28)
+        chunks.append("*" * 28)
 
         return chunks
 

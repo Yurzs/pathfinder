@@ -1,7 +1,6 @@
 import functools
+
 from pathfinder.common.middleware.middleware import Middleware
-from pathfinder.common.dns.message import DnsMessage
-from pathfinder.common.middleware.edns.custom_answer import EdnsAnswer
 
 
 class EDNSMiddleware(Middleware):
@@ -15,6 +14,7 @@ class EDNSMiddleware(Middleware):
         @functools.wraps(func)
         async def inner(*args, **kwargs):
             return await func(*args, **kwargs)
+
         return inner
 
     @classmethod
@@ -22,4 +22,5 @@ class EDNSMiddleware(Middleware):
         @functools.wraps(func)
         async def inner(*args, **kwargs):
             return await func(*args, **kwargs)
+
         return inner

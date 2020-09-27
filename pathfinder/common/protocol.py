@@ -17,6 +17,7 @@ class ProtoBase(metaclass=ABCMeta):
         @functools.wraps(func)
         def wrap(protocol, data):
             return asyncio.Task(async_wrap(protocol, data), loop=protocol.loop)
+
         return wrap
 
     @classmethod

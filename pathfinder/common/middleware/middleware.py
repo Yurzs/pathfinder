@@ -1,6 +1,6 @@
 import functools
 import typing
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta
 
 
 class StopMiddlewareIteration(BaseException):
@@ -18,6 +18,7 @@ class Middleware(metaclass=ABCMeta):
         @functools.wraps(func)
         def wrap(*args, **kwargs):
             return func(*args, **kwargs)
+
         return wrap
 
     @classmethod
@@ -33,6 +34,7 @@ class Middleware(metaclass=ABCMeta):
         @functools.wraps(func)
         def wrap(*args, **kwargs):
             return func(*args, **kwargs)
+
         return wrap
 
     @classmethod
@@ -74,6 +76,7 @@ class MiddlewareList:
             for mware in self.middlewares:
                 result = await mware.after_encode(result)
             return result
+
         return wrap
 
     def on_decode(self, func):
@@ -89,6 +92,7 @@ class MiddlewareList:
             for mware in self.middlewares:
                 await mware.after_decode(result)
             return result
+
         return wrap
 
     def on_query(self, func):
@@ -103,4 +107,5 @@ class MiddlewareList:
                               **kwargs)
             except StopMiddlewareIteration as stop:
                 return stop.result
+
         return wrap

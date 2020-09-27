@@ -7,7 +7,6 @@ class Txt(Rdata):
 
     @classmethod
     def unpack(cls, answer, data):
-
         txt = cls()
         txt._txt_length = data.read(1)
         txt.txt_data = data.read(answer._rdlength - 1).decode("ascii")

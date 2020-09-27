@@ -8,11 +8,9 @@ class Cname(Rdata):
 
     @classmethod
     def unpack(cls, answer, data):
-
         cname = cls()
         cname.cname = DnsDomain.unpack(answer._message, data)
         return cname
 
     def pack(self):
-
         return self.cname.pack()

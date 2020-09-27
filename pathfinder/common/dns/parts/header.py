@@ -1,7 +1,6 @@
 from struct import Struct
 
 from pathfinder.common.dns.exceptions import DnsException
-
 from pathfinder.common.dns.parts import DnsMessagePart
 
 
@@ -10,15 +9,15 @@ class DnsMessageHeader(DnsMessagePart):
 
     lengths = {
         # Length in binary format
-        "id":      16,
-        "qr":      1,
-        "opcode":  4,
-        "aa":      1,
-        "tc":      1,
-        "rd":      1,
-        "ra":      1,
-        "z":       3,
-        "rcode":   4,
+        "id": 16,
+        "qr": 1,
+        "opcode": 4,
+        "aa": 1,
+        "tc": 1,
+        "rd": 1,
+        "ra": 1,
+        "z": 3,
+        "rcode": 4,
         "qdcount": 16,
         "ancount": 16,
         "nscount": 16,
@@ -28,7 +27,7 @@ class DnsMessageHeader(DnsMessagePart):
     byte_length = int(sum(lengths.values()) / 8)
 
     structure = Struct("!{0}".format("".join({
-        "id":      "H",
+        "id": "H",
         "options": "H",
         "qdcount": "H",
         "ancount": "H",

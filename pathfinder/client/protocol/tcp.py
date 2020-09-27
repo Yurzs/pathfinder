@@ -1,5 +1,4 @@
 import asyncio
-import functools
 
 from pathfinder.common.protocol import ProtoBase
 
@@ -31,7 +30,6 @@ class TCPClientProtocol(asyncio.Protocol, ProtoBase):
 
     @classmethod
     async def send_new_message(cls, loop, host, data: bytes, port=53):
-
         transport, protocol = await loop.create_connection(
             lambda: cls(loop, data),
             host, port
